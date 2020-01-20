@@ -1,0 +1,67 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+{% block head %}
+<script src="{% static 'js/jquery.mask.js' %}" ></script>
+
+<style>
+    .flex-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 200px;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+{{ form.non_field_errors }}
+
+<hr>
+<h2 class="flex-box container-box">Painel de controle do usuário</h2>
+
+<div class="container">
+
+<div class="row">
+<div class="flex-box container-box" style="margin-left: 50px;">
+    <form class="pure-form pure-form-aligned" method="POST">
+    {% csrf_token %}
+    {% for field in form %}         
+        <fieldset>
+            <div class="pure-control-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {{ field.errors }}
+            </div>
+            {% endfor %}
+            {% for field in form_more %}  
+            <div class="pure-control-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {{ field.errors }}
+                </div>
+            {% endfor %}            
+    </form>
+</div>
+    <div class="col">
+        <button type='submit' class="btn btn-success btn-icon-split" style="margin-top: 25px;">
+            <span class="icon text-white-50">
+                <i class="fas fa-check"></i>
+            </span>
+            <span class="text">Salvar</span>
+        </button>
+        <button type='submit' class="btn btn-warning btn-icon-split" style="margin-top: 25px;">
+            <span class="icon text-white-50">
+                <i class="fas fa-check"></i>
+            </span>
+            <span class="text">Alterar senha</span>
+        </button>
+    </div>
+</div>
+</div>
+
+<script src="{% static 'js/jquery.mask.js' %}" ></script>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% load static %}
+<html lang="en">
+<head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+          <!-- Tabs Titles -->
+      
+          <!-- Icon -->
+          <div class="fadeIn first">
+            <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
+          </div>
+      
+          <!-- Login Form -->
+          <form method="POST">
+            {% csrf_token %}
+
+            <input type="text" id="email" class="fadeIn second" name="email" placeholder="E-mail">
+            <input type="text" id="username" class="fadeIn second" name="username" placeholder="Username">
+            <input type="text" id="first_name" class="fadeIn second" name="first_name" placeholder="Nome">
+            <input type="text" id="last_name" class="fadeIn second" name="last_name" placeholder="Sobrenome">
+            <input type="password"id="password" class="fadeIn third" name="password" placeholder="Senha">
+            <input type="password" id="password2" class="fadeIn third" name="password2" placeholder="Confirma senha" onkeyup='check();'>
+            <span id='message'></span>
+            
+            <p></p>
+            <input type="submit"  value="Registrar">
+          </form>
+      
+          <!-- Remind Passowrd -->
+          <div id="formFooter">                       
+          </div>
+      
+        </div>
+      </div>
+    
+<script>
+
+  var check = function() {
+    if (document.getElementById('password').value ==
+      document.getElementById('password2').value) {
+      document.getElementById('message').style.color = 'green';
+      document.getElementById('message').innerHTML = 'Senhas válidas';
+    } else {
+      document.getElementById('message').style.color = 'red';
+      document.getElementById('message').innerHTML = 'Senhas nao correspondem';
+    }
+  }
+
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+
