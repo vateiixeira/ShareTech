@@ -1,5 +1,4 @@
 import re
-
 from django.db import models
 from django.core import validators
 from django.utils import timezone
@@ -58,6 +57,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
     is_trusty = models.BooleanField(_('trusty'), default=False,
         help_text=_('Designates whether this user has confirmed his account.'))
+    rua = models.CharField(max_length=100,null=True, blank=True)
+    num_rua = models.IntegerField(null=True, blank=True)
+    bairro = models.CharField(max_length=100,null=True)
+    cep = models.CharField(null=True,max_length=20)
+    fone = models.CharField(max_length=20,null=True)
+    cidade = models.CharField(max_length=100, null=True, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
@@ -78,11 +83,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     def email_user(self, subject, message, from_email=None):
         send_mail(subject, message, from_email, [self.email])
 
-
-class UserMore(models.Model):
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
-    rua = models.CharField(max_length=100)
-    num_rua = models.IntegerField()
-    bairro = models.CharField(max_length=100)
-    cep = models.IntegerField(null=True)
-    fone = models.IntegerField()

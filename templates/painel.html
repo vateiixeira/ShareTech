@@ -1,0 +1,194 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+{% block head %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="{% static 'js/jquery.mask.js' %}" ></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<style>
+    .flex-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 200px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- 
+    {{ form.non_field_errors }}
+
+    <hr>
+    <h2 class="flex-box container-box">Painel de controle do usuário</h2>
+    
+    <div class="container">
+    
+    <div class="row">
+    <div class="flex-box container-box" style="margin-left: 50px;">
+        <form class="pure-form pure-form-aligned" method="POST">
+        {% csrf_token %}
+        {% for field in form %}         
+            <fieldset>
+                <div class="pure-control-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {{ field.errors }}
+                </div>
+                {% endfor %}
+             
+        <div class="row" style="margin-top: 30px; margin-left: 40px;"> 
+        </fieldset></div>
+ <div class="col">
+            <button type='submit' class="btn btn-success btn-icon-split" style="margin-top: 25px;" >
+                <span class="icon text-white-50">
+                    <i class="fas fa-check"></i>
+                </span>
+                <span class="text">Salvar</span>
+            </button>
+        </form>
+            <button type='submit' class="btn btn-warning btn-icon-split" style="margin-top: 25px;">
+                <span class="icon text-white-50">
+                    <i class="fas fa-check"></i>
+                </span>
+                <span class="text">Alterar senha</span>
+            </button>
+        </div>
+    </div>
+    </div> -->
+                
+<h2>Dados de Endereco</h2> </div>
+            
+<div id="app">
+  <div class="container">
+    <div class="row show-grid">
+      <form class="col-md-12" v-on:submit.prevent="enviar_post">
+        <h2>Auto Preenchimento de Endereço via CEP</h2>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="inputCep">CEP</label>
+              <input class="form-control" id="inputCep" type="text" v-model="cep" v-on:keyup="buscar"/>
+            </div>
+          </div>
+          <div class="col-md-3"><span class="text-danger" v-show="naoLocalizado"><strong>* CEP não encontrado</strong></span></div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="inputLogradouro">Logradouro</label>
+              <input class="form-control" id="inputLogradouro" type="text" v-model="endereco.logradouro"/>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="inputNumero">Número</label>
+              <input class="form-control" id="inputNumero" type="number" v-model="endereco.numero"/>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="inputComplemento">Complemento</label>
+              <input class="form-control" id="inputComplemento" type="text" v-model="endereco.complemento"/>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="inputBairro">Bairro</label>
+              <input class="form-control" id="inputBairro" type="text" v-model="endereco.bairro"/>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="inputCidade">Cidade</label>
+              <input class="form-control" id="inputCidade" type="text" v-model="endereco.localidade"/>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="inputEstado">Estado</label>
+              <input class="form-control" id="inputEstado" type="text" v-model="endereco.uf" maxlength="2"/>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="inputFone">Telefone</label>
+              <input class="form-control" id="inputFone" type="text" v-model="endereco.fone" maxlength="20"/>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10"></div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <input class="form-control" type="submit" value="enviar"/>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<script src="{% static 'js/jquery.mask.js' %}" ></script>
+
+<script>
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    cep: '',
+    endereco: {},
+    naoLocalizado: false
+  },
+  mounted: function () {
+    $("#inputCep").mask("00000-000");
+  },
+  methods: {
+    registrar: function(){    
+    },
+    buscar: function(){
+      var self = this;
+      
+      self.naoLocalizado = false;
+      
+      if(/^[0-9]{5}-[0-9]{3}$/.test(this.cep)){
+        $.getJSON("https://viacep.com.br/ws/" + this.cep + "/json/", function(endereco){
+          if(endereco.erro){
+            self.endereco = {};
+            $("#inputLogradouro").focus();
+            self.naoLocalizado = true;
+            return;
+          }
+          self.endereco = endereco;
+          console.log(endereco);
+          $("#inputNumero").focus();
+        });
+      }
+    },
+    enviar_post: function(){            
+      axios.post('http://localhost:8000/account/painel/1/', {
+        ...this.endereco
+          },
+          axios.defaults.xsrfCookieName = 'csrftoken',
+          axios.defaults.xsrfHeaderName = "X-CSRFTOKEN")
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+            console.log(error.message);
+          });
+    },
+  }
+})  
+
+</script>
+
+{% endblock %}

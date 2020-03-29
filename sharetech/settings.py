@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import cloudinary  # cloudinary
+import cloudinary.uploader  # cloudinary
+import cloudinary.api  # cloudinary
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +28,7 @@ SECRET_KEY = '3&n(z*(zx@mg-19u^q=-z^_*hxl47gzqsy#lspdk0ko-4d*3r&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.0.101', '*']
 
 AUTH_USER_MODEL = 'account.User'
 
@@ -41,7 +44,19 @@ INSTALLED_APPS = [
 
     'sharetech.account',
     'sharetech.core',
+    'sharetech.produto',
+    'sharetech.api',
+
+    'rest_framework',
+    'webpack_loader',
+    'corsheaders',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'cloudinary'
+
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,6 +66,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    #cors plugin separado
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'sharetech.urls'
@@ -79,8 +98,12 @@ WSGI_APPLICATION = 'sharetech.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'share',
+        'USER': 'postgres',
+        'PASSWORD': '1',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -108,25 +131,64 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 
+# LANGUAGE_CODE = 'pt-br'
+
+# TIME_ZONE = 'America/Bahia'
+
+# USE_TZ = True
+
 LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'America/Sao_Paulo'
 
-USE_I18N = True
-
-USE_L10N = True
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'dist'),
+    os.path.join(BASE_DIR, 'static'),
+)
+
 STATIC_URL = '/static/'
+FRONTEND_DIR = os.path.join (BASE_DIR, 'frontend')
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-# REDIRECIONA APOS FEITO LOGIN
-#LOGIN_URL = 'core:login'
-#LOGIN_REDIRECT_URL = 'core:homepage'
-# REDIRECIONA APOS LOGOUT
-#LOGOUT_REDIRECT_URL = 'core:logout'
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media') 
+MEDIA_URL = '/media/'
+
+
+LOGIN_URL = 'account:login_page'
+LOGIN_REDIRECT_URL = 'core:home'
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    ),
+}
+
+WEBPACK_LOADER = { 
+    'DEFAULT': { 
+        'CACHE': DEBUG, 
+        'BUNDLE_DIR_NAME': '/ bundles /', # deve terminar com barra 
+        'STATS_FILE': os.path.join (FRONTEND_DIR, 'webpack-stats.json'), 
+    } 
+}
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+cloudinary.config(
+    cloud_name="beetech",
+    api_key="937199118768756",
+    api_secret="vZhi-DeaeaX3MaeIguYAlacnwQg"
+)
