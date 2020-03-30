@@ -10,7 +10,8 @@ class Product_Serializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super(Product_Serializer, self).to_representation(instance)
-        representation['img'] = instance.img.url
+        if instance.img is not None:
+            representation['img'] = instance.img.url
         if instance.img2 is not None:
             representation['img2'] = instance.img2.url
         if instance.img3 is not None:
