@@ -33,7 +33,7 @@ class Img_Serializer(serializers.ModelSerializer):
 class User_Serializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'rua', 'bairro', 'cep', 'fone', 'num_rua', 'email']
+        fields = ['id', 'username', 'first_name', 'rua', 'bairro', 'cep', 'fone', 'num_rua', 'email', 'cidade']
 
 class RegistrationSerializer(serializers.ModelSerializer):
     class Meta:
