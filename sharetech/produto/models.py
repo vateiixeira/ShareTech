@@ -25,11 +25,10 @@ class Produto(models.Model):
     descricao = models.TextField('Descricao')
     aceita_cartao = models.BooleanField('Aceita cartao' , default=True)
     vendedor = models.ForeignKey(User, on_delete=models.CASCADE)
-    img =  CloudinaryField('imagem', null=True)
+    img1 =  CloudinaryField('imagem', null=True)
     img2 =  CloudinaryField('imagem', null=True)
     img3 =  CloudinaryField('imagem', null=True)
     img4 =  CloudinaryField('imagem', null=True)
-    img5 =  CloudinaryField('imagem', null=True)
 
     create_at = models.DateField('Criado em')
     updated_at = models.DateField('Atualizado em')
