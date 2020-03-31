@@ -4,8 +4,8 @@ from rest_framework import authentication, permissions, viewsets
 from django.contrib.auth.models import User
 from django.middleware.csrf import get_token
 from sharetech.produto.models import Produto, Img, Favorito
-from sharetech.account.models import User
-from .serializers import Product_Serializer, User_Serializer, Img_Serializer, Favorito_Serializer,RegistrationSerializer
+from sharetech.account.models import User, Avatar
+from .serializers import Product_Serializer, User_Serializer, Img_Serializer, Favorito_Serializer,RegistrationSerializer, AvatarSerializzer
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -24,6 +24,10 @@ class Get_Csrf(APIView):
 class Product_List(viewsets.ModelViewSet):
     queryset = Produto.objects.all()
     serializer_class = Product_Serializer
+
+class Avatar_List(viewsets.ModelViewSet):
+    queryset = Avatar.objects.all()
+    serializer_class = AvatarSerializzer
 
 class Favorito_List(viewsets.ModelViewSet):
     queryset = Favorito.objects.all()

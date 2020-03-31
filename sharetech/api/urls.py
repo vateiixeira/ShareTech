@@ -9,6 +9,7 @@ router = routers.DefaultRouter()
 router.register('product', Product_List)
 router.register('user', User_List, basename='user')
 router.register('favorito', Favorito_List)
+router.register('avatar', Avatar_List)
 #router.register('img', Img_List.as_view())
 
 urlpatterns = [

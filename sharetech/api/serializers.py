@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from sharetech.produto.models import Produto, Img, Favorito
-from sharetech.account.models import User
+from sharetech.account.models import User, Avatar
 
 
 class Product_Serializer(serializers.ModelSerializer):
@@ -39,3 +39,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'email', 'password']
+
+class AvatarSerializzer(serializers.ModelSerializer):
+    class Meta:
+        model = Avatar
+        fields = '__all__'
