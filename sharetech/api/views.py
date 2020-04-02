@@ -25,6 +25,12 @@ class Product_List(viewsets.ModelViewSet):
     queryset = Produto.objects.all()
     serializer_class = Product_Serializer
 
+    def dono(self, request, id ):
+        user = User.objects.get(id=id)
+        produto = Produto.objects.filter(vendedor=id)
+        serializer = Product_Serializer(produto, many=True)
+        return Response(serializer.data)
+
 class Avatar_List(viewsets.ModelViewSet):
     queryset = Avatar.objects.all()
     serializer_class = AvatarSerializzer

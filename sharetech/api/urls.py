@@ -17,6 +17,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('img', Img_List.as_view()),
     path('get_user_name/<str:email>', User_List.as_view({'get':'getByUsername'})),
+    path('loja/<int:id>', Product_List.as_view({'get':'dono'})),
     path('register', create_auth),
     path('favoritos/<int:pk>', FavoritoDetail.as_view()),
 ]
