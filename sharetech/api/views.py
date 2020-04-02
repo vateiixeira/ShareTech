@@ -34,6 +34,7 @@ class Product_List(viewsets.ModelViewSet):
 class Avatar_List(viewsets.ModelViewSet):
     queryset = Avatar.objects.all()
     serializer_class = AvatarSerializzer
+    lookup_field = 'id'
     
     def getbyId(self, request, id ):
         avatar = Avatar.objects.get(user=id)
