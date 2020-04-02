@@ -19,8 +19,7 @@ from cloudinary.models import CloudinaryField
 
 class Produto(models.Model):
     nome = models.CharField('Nome', max_length=100)
-    modelo = models.CharField('Modelo', max_length=100)
-    marca = models.CharField('Marca', max_length=100)
+    marca_modelo = models.CharField('Marca', max_length=100, null=True, blank=True)
     preco = models.FloatField('Preco')
     descricao = models.TextField('Descricao')
     aceita_cartao = models.BooleanField('Aceita cartao' , default=True)
