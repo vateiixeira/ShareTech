@@ -19,7 +19,7 @@ from cloudinary.models import CloudinaryField
 
 class Produto(models.Model):
     nome = models.CharField('Nome', max_length=100)
-    marca_modelo = models.CharField('Marca', max_length=100, null=True, blank=True)
+    marca_modelo = models.CharField('Modelo ou Marca', max_length=100, null=True, blank=True)
     preco = models.FloatField('Preco')
     descricao = models.TextField('Descricao')
     aceita_cartao = models.BooleanField('Aceita cartao' , default=True)
@@ -35,12 +35,12 @@ class Produto(models.Model):
     # True == Aceita cartao
 
     def __str__(self):
-        return str(f" Categoria:{self.nome} | Modelo:{self.modelo}")
+        return str(f" Categoria:{self.nome} | Modelo:{self.marca_modelo}")
 
     class Meta:
         verbose_name = "Produto"
         verbose_name_plural = "Produtos"
-        ordering = ['modelo']
+        ordering = ['marca_modelo']
 
     objects = UserManager()
 
