@@ -34,6 +34,11 @@ class Product_List(viewsets.ModelViewSet):
 class Avatar_List(viewsets.ModelViewSet):
     queryset = Avatar.objects.all()
     serializer_class = AvatarSerializzer
+    
+    def getbyId(self, request, id ):
+        avatar = Avatar.objects.get(user=id)
+        serializer = AvatarSerializzer(avatar, many=False)
+        return Response(serializer.data)
 
 class Favorito_List(viewsets.ModelViewSet):
     queryset = Favorito.objects.all()
