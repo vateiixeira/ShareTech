@@ -38,8 +38,11 @@ class Avatar_List(viewsets.ModelViewSet):
     
     def getbyId(self, request, id ):
         avatar = Avatar.objects.get(user=id)
-        serializer = AvatarSerializzer(avatar)
-        return Response(serializer.data)
+        serializer = AvatarSerializzer(avatar, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class Favorito_List(viewsets.ModelViewSet):
     queryset = Favorito.objects.all()
