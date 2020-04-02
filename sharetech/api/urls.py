@@ -20,5 +20,5 @@ urlpatterns = [
     path('loja/<int:id>', Product_List.as_view({'get':'dono'})),
     path('register', create_auth),
     path('favoritos/<int:pk>', FavoritoDetail.as_view()),
-    path('get_avatar/user/<int:id>', Avatar_List.as_view({'put':'getbyId'})),
+    path('change_avatar/user/<int:id>', Avatar_List.as_view({'put':'putbyId'})),
 ]

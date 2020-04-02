@@ -34,9 +34,9 @@ class Product_List(viewsets.ModelViewSet):
 class Avatar_List(viewsets.ModelViewSet):
     queryset = Avatar.objects.all()
     serializer_class = AvatarSerializzer
-    lookup_field = 'id'
+    lookup_field = 'user'
     
-    def getbyId(self, request, id ):
+    def putbyId(self, request, id ):
         avatar = Avatar.objects.get(user=id)
         serializer = AvatarSerializzer(avatar, data=request.data)
         if serializer.is_valid():
