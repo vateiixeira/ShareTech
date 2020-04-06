@@ -86,4 +86,4 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Avatar(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    avatar = CloudinaryField('avatar')
+    avatar = models.CharField('avatar', max_length=100)
