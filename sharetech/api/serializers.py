@@ -8,17 +8,17 @@ class Product_Serializer(serializers.ModelSerializer):
         model = Produto
         fields = '__all__'
 
-    def to_representation(self, instance):
-        representation = super(Product_Serializer, self).to_representation(instance)
-        if instance.img1 is not None:
-            representation['img1'] = instance.img1.url
-        if instance.img2 is not None:
-            representation['img2'] = instance.img2.url
-        if instance.img3 is not None:
-            representation['img3'] = instance.img3.url
-        if instance.img4 is not None:
-             representation['img4'] = instance.img4.url
-        return representation
+    # def to_representation(self, instance):
+    #     representation = super(Product_Serializer, self).to_representation(instance)
+    #     if instance.img1 is not None:
+    #         representation['img1'] = instance.img1.url
+    #     if instance.img2 is not None:
+    #         representation['img2'] = instance.img2.url
+    #     if instance.img3 is not None:
+    #         representation['img3'] = instance.img3.url
+    #     if instance.img4 is not None:
+    #          representation['img4'] = instance.img4.url
+    #     return representation
 
 class Favorito_Serializer(serializers.ModelSerializer):
     class Meta:
