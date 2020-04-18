@@ -44,7 +44,7 @@ class AvatarSerializzer(serializers.ModelSerializer):
     class Meta:
         model = Avatar
         fields = '__all__'
-    def to_representation(self, instance):
-        representation = super(AvatarSerializzer, self).to_representation(instance)
-        representation['avatar'] = instance.avatar.url
-        return representation
+    # def to_representation(self, instance):
+    #     representation = super(AvatarSerializzer, self).to_representation(instance)
+    #     representation['avatar'] = instance.avatar.url
+    #     return representation
