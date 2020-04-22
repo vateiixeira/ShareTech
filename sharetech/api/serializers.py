@@ -4,6 +4,7 @@ from sharetech.account.models import User, Avatar
 
 
 class Product_Serializer(serializers.ModelSerializer):
+    create_at = serializers.DateField(format='%d/%m/%Y')
     class Meta:
         model = Produto
         fields = '__all__'
