@@ -21,4 +21,5 @@ urlpatterns = [
     path('register', create_auth),
     path('favoritos/<int:pk>', FavoritoDetail.as_view()),
     path('change_avatar/user/<int:id>', Avatar_List.as_view({'put':'putbyId'})),
+    path('filtrar/<str:nome1>/<str:nome2>/<str:nome3>/<str:nome4>', FiltrarProduto.as_view())
 ]
