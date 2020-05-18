@@ -51,7 +51,7 @@ class FiltrarProduto(APIView):
 
             total = nome | marca_modelo | contem | contem_marcaModelo
             return total
-        except Produto.DoesNotExist:
+        except total is None:
             raise Http404
 
     def get(self, request, nome1, nome2, nome3, nome4, format=None):
@@ -130,4 +130,8 @@ def create_auth(request):
     else:
         return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+@api_view(['GET'])
+def last_products(request):
+    produto = Produto.objects.all().order_by('id')[:20][::-1]
+    serializer = Product_Serializer(produto, many=True)
+    return Response(serializer.data)
