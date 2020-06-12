@@ -30,7 +30,10 @@ class Product_List(viewsets.ModelViewSet):
         user = User.objects.get(id=id)
         produto = Produto.objects.filter(vendedor=id)
         serializer = Product_Serializer(produto, many=True)
-        return Response(serializer.data)
+        return Response({
+            'itens' : serializer.data,
+            'user' : user.username
+        })
 
 class FiltrarProduto(APIView): 
 
