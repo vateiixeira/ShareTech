@@ -16,6 +16,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import Http404
 from rest_framework import generics
+from django.db.models import Q
 
 class Get_Csrf(APIView):
     def get(self, request, format=None):
@@ -37,28 +38,19 @@ class Product_List(viewsets.ModelViewSet):
 
 class FiltrarProduto(APIView): 
 
-    def get_object(self, nome1, nome2, nome3, nome4):        
+    def get_object(self, nome):
         try:
-            nome = Produto.objects.filter(nome__in = [nome1, nome2, nome3, nome4])
-            marca_modelo = Produto.objects.filter(marca_modelo__in = [nome1, nome2, nome3, nome4])
-            contem = Produto.objects.filter(nome = '9879987')
-            contem_marcaModelo = Produto.objects.filter(nome = '9879987') 
+            nome = Produto.objects.filter(
+                Q(nome__contains = nome) |
+                Q(marca_modelo__contains = nome))       
             
-            for i in [nome1, nome2, nome3, nome4]:
-                obj = Produto.objects.filter(nome__contains = i)
-                contem = obj | contem
-
-            for x in [nome1, nome2, nome3,nome4]:
-                obj = Produto.objects.filter(marca_modelo__contains = x)
-                contem_marcaModelo = obj | contem_marcaModelo
-
-            total = nome | marca_modelo | contem | contem_marcaModelo
+            total = nome 
             return total
         except total is None:
             raise Http404
-
-    def get(self, request, nome1, nome2, nome3, nome4, format=None):
-        user = self.get_object(nome1, nome2, nome3, nome4)
+        
+    def get(self, request, nome, format=None):
+        user = self.get_object(nome)
         serializer = Product_Serializer(user, many=True)
         return Response(serializer.data)  
 
